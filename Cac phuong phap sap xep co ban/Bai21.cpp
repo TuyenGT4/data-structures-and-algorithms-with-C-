@@ -108,11 +108,44 @@ void insertionSort(MonHoc* arr, int n){
 	for(int i = 1; i < n; i++){
 		MonHoc tmp = arr[i];
 		int pos = i-1;
-		while(pos>=0 && arr[pos].getSoTietGiangDay()>arr[i].getSoTietGiangDay()){
+		while(pos>=0 && arr[pos].getSoTietGiangDay()>tmp.getSoTietGiangDay()){
 			arr[pos+1] = arr[pos];
 			pos -=1;
 		}
 		arr[pos+1] = tmp;
+	}
+}
+
+//bubble sort
+void bubbleSort(MonHoc* arr, int n){
+	for(int i = 0; i < n-1; i++){
+		for(int j = 0; j<n-1-i; j++){
+			if(arr[j].getSoTietGiangDay() > arr[j+1].getSoTietGiangDay()){
+				swap(arr[j], arr[j+1]);
+			}
+		}
+	}
+}
+
+//quick sort
+int partition (MonHoc* arr, int low, int high){
+	int pivot = high;
+	int i = low -1;
+	for(int j = low; j < high; j++){
+		if(arr[j].getSoTietGiangDay()<arr[pivot].getSoTietGiangDay()){
+			i+=1;
+			swap(arr[i], arr[j]);
+		}
+	}
+	swap(arr[pivot], arr[i+1]);
+	return i+1;
+}
+
+void quickSort(MonHoc* arr, int low, int high){
+	if(low < high){
+		int x = partition(arr, low, high);
+		quickSort(arr, low, x-1);
+		quickSort(arr, x+1, high);
 	}
 }
 
@@ -137,8 +170,14 @@ int main(){
 	//cout<<"----Phuong phap sap xep selection sort----"<<endl;
 	//selectionSort(arr, n);
 	
-	cout<<"----Phuong phap sap xep chen truc tiep----"<<endl;
-	insertionSort(arr, n);
+	//cout<<"----Phuong phap sap xep chen truc tiep----"<<endl;
+	//insertionSort(arr, n);
+	
+	//cout<<"----Phuong phap sap xep bubble sort----"<<endl;
+	//bubbleSort(arr, n);
+
+	cout<<"----Phuong phap sap xep quick sort----\n";
+	quickSort(arr, 0, n-1);
 	cout<<setw(20)<<left<<"Ma mon hoc"
 		<<setw(20)<<left<<"Ten mon hoc"
 		<<setw(20)<<left<<"So tin chi"
