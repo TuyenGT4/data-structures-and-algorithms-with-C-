@@ -20,13 +20,13 @@ class KhachHang{ //checked
 			cout<<"Nhap so dien thoai: ";			cin>>this->sdt;
 			cout<<"Nhap tong tien thanh toan: ";	cin>>this->tongTienThanhToan;
 		}
-		void xuatThongTinKhachHang(){
+		void xuatThongTinKhachHang() const{
 			cout<<setw(15)<<left<<this->maKH
 				<<setw(20)<<left<<this->tenKH
 				<<setw(15)<<left<<this->sdt
 				<<setw(20)<<left<<this->tongTienThanhToan<<endl;
 		}
-		float getTongTienThanhToan(){
+		float getTongTienThanhToan() const{
 			return this->tongTienThanhToan;
 		}
 };
@@ -46,7 +46,7 @@ class DanhSachKhachHang{
 				list[i].nhapThongTinKhachHang();
 			}
 		}
-		void xuatDanhSachKhachHang(int n){
+		void xuatDanhSachKhachHang(int n) const{
 			cout<<setw(15)<<left<<"Ma khach hang"
 				<<setw(20)<<left<<"Ten khach hang"
 				<<setw(15)<<left<<"So dien thoai"
@@ -102,7 +102,25 @@ class DanhSachKhachHang{
 			}
 		}
 		//pp sx nhanh
-		
+		int partition(int low, int high){
+			int pivot = high;
+			int i = low-1;
+			for(int j = low; j < high; j++){
+				if(list[j].getTongTienThanhToan() < list[pivot].getTongTienThanhToan()){
+					i += 1;
+					swap(list[i], list[j]);
+				}
+			}
+			swap(list[i+1], list[pivot]);
+			return i+1;
+		}
+		void quickSort(int low, int high){
+			if(low<high){
+				int x = partition(low, high);
+				quickSort(low, x-1);
+				quickSort(x+1, high);
+			}
+		}	
 };
 
 int isValid(){ //checked
@@ -136,7 +154,8 @@ int main(){
 	//list->interchangeSort(n);
 	//list->selectionSort(n);
 	//list->insertionSort(n);
-	list->bubbleSort(n);
+	//list->bubbleSort(n);
+	list->quickSort(0, n-1);
 	list->xuatDanhSachKhachHang(n);
 	return 0;
 }
